@@ -96,10 +96,10 @@
                     <select name="" id="shift_search" class="browser-default z-depth-1" style="border-radius:30px;">
                         <option value="">--SELECT PROP STATUS--</option>
                         <option value="0">PENDING TO POST</option>
-                        <option value="1">POSTED</option>
-                        <option value="2">APPROVED</option>
-                        <option value="3">SOLD</option>
-                        <option value="4">DELETED/HIDDEN</option>
+                        <option value="1">FOR APPROVAL</option>
+                        <option value="2">SOLD</option>
+                        <option value="3">DELETED/HIDDEN</option>
+                       
                     </select>
                 </div>
 

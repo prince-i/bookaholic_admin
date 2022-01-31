@@ -27,10 +27,8 @@
                 }elseif($x['prop_status'] == 1){
                     $propStatus = 'POSTED';
                 }elseif($x['prop_status'] == 2){
-                    $propStatus = 'APPROVED';
-                }elseif($x['prop_status'] == 3){
                     $propStatus = 'SOLD';
-                }elseif($x['prop_status'] == 4){
+                }elseif($x['prop_status'] == 3){
                     $propStatus = 'DELETED';
                 }
 
@@ -245,7 +243,7 @@
 
     if($method == 'delete_prop'){
         $id = $_POST['id'];
-        $sql  = "UPDATE `tbl_property` SET prop_status = 4 WHERE prop_id = '$id'";
+        $sql  = "UPDATE `tbl_property` SET prop_status = 3 WHERE prop_id = '$id'";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
     }
@@ -349,9 +347,9 @@
                 }elseif($x['prop_status'] == 1){
                     $propStatus = 'POSTED';
                 }elseif($x['prop_status'] == 2){
-                    $propStatus = 'APPROVED';
-                }elseif($x['prop_status'] == 3){
                     $propStatus = 'SOLD';
+                }elseif($x['prop_status'] == 3){
+                    $propStatus = 'DELETED';
                 }
 
 
@@ -380,7 +378,7 @@
     }
 
     if($method == 'count_pending'){
-        $sql = "SELECT COUNT(prop_id) as c FROM tbl_property WHERE prop_status = 1";
+        $sql = "SELECT COUNT(prop_id) as c FROM tbl_property WHERE prop_status = 0";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $res = $stmt->fetchALL();
@@ -391,7 +389,8 @@
 
     if($method == 'appr_prop'){
         $id = $_POST['id'];
-        $sql = "UPDATE `tbl_property` SET prop_status = 2 WHERE prop_id = '$id'";
+        ## PENDING TO POST --> POSTED
+        $sql = "UPDATE `tbl_property` SET prop_status = 1 WHERE prop_id = '$id'";
         $stmt = $conn->prepare($sql);
         if($stmt->execute()){
             echo '1';
@@ -402,7 +401,7 @@
 
     if($method == 'decline_prop'){
         $id = $_POST['id'];
-        $sql = "UPDATE `tbl_property` SET prop_status = 4 WHERE prop_id = '$id'";
+        $sql = "UPDATE `tbl_property` SET prop_status = 3 WHERE prop_id = '$id'";
         $stmt = $conn->prepare($sql);
         if($stmt->execute()){
             echo '1';
