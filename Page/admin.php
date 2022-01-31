@@ -18,6 +18,7 @@
     <title>BOOKAHOLIC ADMIN | <?=$full_name;?></title>
     <link rel="stylesheet" href="../materialize/css/materialize.min.css">
     <link rel="stylesheet" href="../Component/main.css">
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 <?php
@@ -35,6 +36,7 @@
 <nav class="#388e3c green darken-2">
     <div class="nav-wrapper">
       <a href="#" class="brand-logo"><?=$full_name;?></a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="#" data-target="masterlist_admin" class="modal-trigger" onclick="load_admin_user()">Manage Admin</a></li>
         <li><a href="#" class="modal-trigger" data-target="manage_user" onclick="load_users()">Manage Users</a></li>
@@ -44,6 +46,12 @@
     </div>
   </nav>
 
+   <ul class="sidenav" id="mobile-demo">
+        <li><a href="#" data-target="masterlist_admin" class="modal-trigger" onclick="load_admin_user()">Manage Admin</a></li>
+        <li><a href="#" class="modal-trigger" data-target="manage_user" onclick="load_users()">Manage Users</a></li>
+        <li><a href="#" data-target="history_logs" class="modal-trigger" onclick="load_for_approve()">For Approval <span id="apprCount" class="badge new red">0</span></a></li>
+        <li><a href="#" data-target="modal-logout" class="modal-trigger">Logout</a></li>
+  </ul>
 <!-- PLAN LIST -->
 
 
@@ -152,6 +160,7 @@
         inDuration: 300,
         outDuration:200
         });
+        $('.sidenav').sidenav();
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd',
             autoClose: true
