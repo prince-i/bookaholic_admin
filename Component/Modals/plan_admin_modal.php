@@ -4,6 +4,9 @@
 </div>
 <div class="modal-content">
     <div class="row">
+         <div class="col s12 center">
+            <div id="image_prop_view"></div>
+        </div>
         <div class="col s12" style="font-size:20px;font-family:arial;">
             <div class="col s6">
                 <b>Property Owner:</b>

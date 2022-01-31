@@ -51,7 +51,8 @@
                     ."$ownerEmail / $ownerMobile".'~!~'
                     .$x['prop_price'].'~!~'
                     .$x['prop_address'].'~!~'
-                    .$x['prop_isForRent']
+                    .$x['prop_isForRent'].'~!~'
+                    .$x['prop_image']
                     .'&quot;)" >';
                 echo '<td>'.$c.'</td>';
                 echo '<td>'.$propImage.'</td>';
