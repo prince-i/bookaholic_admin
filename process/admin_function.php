@@ -319,9 +319,9 @@
 
         ## QUERY
         if(empty($from) || empty($to)){
-            $qry ="SELECT *FROM tbl_property WHERE prop_name LIKE '$key%' AND prop_status = 1";
+            $qry ="SELECT *FROM tbl_property WHERE prop_name LIKE '$key%' AND prop_status = 0";
         }else{
-            $qry = "SELECT *FROM tbl_property WHERE prop_createdAt >='$from 00:00:00' AND prop_createdAt <= '$to 23:59:59' AND prop_name LIKE '$key%' AND prop_status = 1";
+            $qry = "SELECT *FROM tbl_property WHERE prop_createdAt >='$from 00:00:00' AND prop_createdAt <= '$to 23:59:59' AND prop_name LIKE '$key%' AND prop_status = 0";
         }
         
         $stmt = $conn->prepare($qry);
