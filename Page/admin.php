@@ -213,14 +213,14 @@
 
     const get_plan_del =(param)=>{
         var data = param.split('~!~');
-        // console.log(param);
+        console.log(param); 
         document.getElementById('propertyID').value = data[0];
         document.getElementById('propowner').innerHTML = data[1];
         document.getElementById('propname').innerHTML = data[2];
         document.getElementById('propdesc').innerHTML = data[3];
         document.getElementById('prop_price').innerHTML = data[4];
         document.getElementById('prop_address').innerHTML = data[5];
-        document.getElementById('rent_stat').innerHTML = data[6];
+        // document.getElementById('rent_stat').innerHTML = data[6];
         document.getElementById('image_prop_view').innerHTML = '<img src="'+ data[7] +'" class="responsive-img" style="width:25%;"/>';
     }
 
