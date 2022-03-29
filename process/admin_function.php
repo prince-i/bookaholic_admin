@@ -8,7 +8,7 @@
         $partsCode = $_POST['partsCode'];
         $shiftCode = $_POST['shiftCode'];
         // QUERY
-        $qry = "SELECT *FROM tbl_property WHERE prop_createdAt >='$from 00:00:00' AND prop_createdAt <= '$to 23:59:59' AND prop_name LIKE '$partsCode%' AND prop_status LIKE '$shiftCode%'";
+        $qry = "SELECT *FROM tbl_property WHERE prop_createdAt >='$from 00:00:00' AND prop_createdAt <= '$to 23:59:59' AND prop_name LIKE '$partsCode%' AND prop_status LIKE '$shiftCode%' ORDER BY prop_createdAt DESC";
         $stmt = $conn->prepare($qry);
         $stmt->execute();
         if($stmt->rowCount() > 0){
@@ -56,10 +56,8 @@
                     .'&quot;)" >';
                 echo '<td>'.$c.'</td>';
                 echo '<td>'.$propImage.'</td>';
-                echo '<td>'.$x['prop_isForRent'].'</td>';
                 echo '<td>'.$x['prop_name'].'</td>';
-                echo '<td>'.$x['prop_description'].'</td>';
-                echo '<td>'.$x['prop_price'].'</td>';
+                echo '<td> ₱ '.$x['prop_price'].'</td>';
                 echo '<td>'.$x['prop_address'].'</td>';
                 echo '<td>'.$propStatus.'</td>';
                 echo '<td>'.$owner.'</td>';
@@ -80,7 +78,7 @@
         $x = $_POST['userSearch'];
         $type = $_POST['acc_type'];
 
-        $query = "SELECT *FROM tbl_accounts WHERE (acc_email LIKE '$x%' OR acc_fname LIKE '$x%' OR acc_lname LIKE '$x%') AND acc_role LIKE '$type%'";
+        $query = "SELECT *FROM tbl_accounts WHERE (acc_email LIKE '$x%' OR acc_fname LIKE '$x%' OR acc_lname LIKE '$x%') AND acc_role LIKE '$type%' ORDER BY acc_createdAt DESC";
         
         
         $stmt = $conn->prepare($query);
@@ -90,7 +88,7 @@
 
                 if($x['acc_role'] == 1){
                     $userType = 'SELLER';
-                }elseif($x['acc_role'] == 2){
+                }elseif($x['acc_role'] == 0){
                     $userType = 'BUYER';
                 }
 
@@ -106,7 +104,7 @@
                 echo '<td class="modal-trigger" data-target="editusermodal" onclick="get_data_user(&quot;'.$x['acc_id'].'~!~'.$x['acc_email'].'~!~'.$x['acc_password'].'~!~'.$x['acc_fname'].'~!~'.$x['acc_lname'].'&quot;)" style="cursor:pointer;"><u>'.$x['acc_id'].
                 '</u></td>';
                 echo '<td class="modal-trigger" data-target="editusermodal" onclick="get_data_user(&quot;'.$x['acc_id'].'~!~'.$x['acc_email'].'~!~'.$x['acc_password'].'~!~'.$x['acc_fname'].'~!~'.$x['acc_lname'].'&quot;)" style="cursor:pointer;"><u>'.$x['acc_email'].'</u></td>';
-                echo '<td>'.$x['acc_password'].
+                
                 '</td>';
                 echo '<td>'.$x['acc_fname']." ".$x['acc_lname'].
                 '</td>';
@@ -213,7 +211,7 @@
 
         ##
 
-        $sql = "UPDATE tbl_accounts SET acc_email ='$userid', password ='$password', acc_fname = '$fname', acc_lname = '$lname', acc_role = '$usertype' WHERE acc_id = '$id'";
+        $sql = "UPDATE tbl_accounts SET acc_email ='$userid', acc_password ='$password', acc_fname = '$fname', acc_lname = '$lname', acc_role = '$usertype' WHERE acc_id = '$id'";
         $stmt = $conn->prepare($sql);
         if($stmt->execute()){
             echo 'success';
@@ -252,7 +250,7 @@
     if($method == 'stats'){
         ## GET BUYER AND SELLER
         $GETUSER = "SELECT DISTINCT COUNT(IF(acc_role = 1,1,NULL)) AS seller,
-                                    COUNT(IF(acc_role =2,1,NULL)) AS buyer 
+                                    COUNT(IF(acc_role =0,1,NULL)) AS buyer 
                                     FROM tbl_accounts";
         $stmt = $conn->prepare($GETUSER);
         $stmt->execute();
@@ -280,7 +278,6 @@
         foreach($stmt->fetchall() as $x){
                echo '<tr onclick="get_admin(&quot;'.$x['id'].'~!~'.$x['userid'].'~!~'.$x['password'].'~!~'.$x['full_name'].'&quot;)" data-target="edit_admin" class="modal-trigger" style="cursor:pointer;">';
                 echo '<td>'.$x['userid'].'</td>';
-                echo '<td>'.$x['password'].'</td>';
                 echo '<td>'.$x['full_name'].'</td>';
                 echo '</tr>';
         }
@@ -322,7 +319,7 @@
         if(empty($from) || empty($to)){
             $qry ="SELECT *FROM tbl_property WHERE prop_name LIKE '$key%' AND prop_status = 0";
         }else{
-            $qry = "SELECT *FROM tbl_property WHERE prop_createdAt >='$from 00:00:00' AND prop_createdAt <= '$to 23:59:59' AND prop_name LIKE '$key%' AND prop_status = 0";
+            $qry = "SELECT *FROM tbl_property WHERE prop_createdAt >='$from 00:00:00' AND prop_createdAt <= '$to 23:59:59' AND prop_name LIKE '$key%' AND prop_status = 0 ORDER BY prop_createdAt DESC";
         }
         
         $stmt = $conn->prepare($qry);
@@ -358,17 +355,15 @@
                     onclick="get_for_approve(&quot;'
                     .$x['prop_id']
                     .'&quot;)" >';
-                echo '<td>'.$c.'</td>';
-                echo '<td>'.$x['prop_isForRent'].'</td>';
-                echo '<td>'.$x['prop_name'].'</td>';
-                echo '<td>'.$x['prop_description'].'</td>';
-                echo '<td>'.$x['prop_price'].'</td>';
-                echo '<td>'.$x['prop_address'].'</td>';
-                echo '<td>'.$propStatus.'</td>';
-                echo '<td>'.$owner.'</td>';
-                echo '<td>'.$ownerMobile.'</td>';
-                echo '<td>'.$ownerEmail.'</td>';
-                echo '<td>'.$x['prop_createdAt'].'</td>';
+                echo '<td style="text-align:center;">'.$c.'</td>';
+                echo '<td style="text-align:center;">'.$x['prop_name'].'</td>';
+                echo '<td style="text-align:center;"> ₱ '.$x['prop_price'].'</td>';
+                echo '<td style="text-align:center;">'.$x['prop_address'].'</td>';
+                echo '<td style="text-align:center;">'.$propStatus.'</td>';
+                echo '<td style="text-align:center;">'.$owner.'</td>';
+                echo '<td style="text-align:center;">'.$ownerMobile.'</td>';
+                echo '<td style="text-align:center;">'.$ownerEmail.'</td>';
+                echo '<td style="text-align:center;">'.$x['prop_createdAt'].'</td>';
                 echo '</tr>';
             }
         }else{

@@ -3,7 +3,7 @@
     <button class="btn-flat modal-close" style="color:red;font-size:30px;">&times;</button>
 </div>
 <div class="modal-content">
-    <h5 class="center">PROPERTY FOR APPROVAL</h5>
+    <h5 class="center">BOOK FOR APPROVAL</h5>
     <div class="row">
         <div class="col s12">
             <!-- FROM -->
@@ -25,20 +25,18 @@
             </div>
         </div>
 
-        <div class="col s12 collection" style="max-height:80vh;border:1px solid black;overflow:auto;">
-            <table id="history_table" style="word-break:break;">
+        <div class="col s12 collection" style="max-height:80vh;border:1px solid black;overflow:auto; text-align:center;">
+            <table id="history_table" style="word-break:break; text-align:center;">
                 <thead>
-                    <th>#</th>
-                        <th>RENT STATUS</th>
-                        <th>PROPERTY NAME</th>
-                        <th>DESCRIPTION</th>
-                        <th>PRICE</th>
-                        <th>ADDRESS</th>
-                        <th>PROPERTY STATUS</th>
-                        <th>OWNER NAME</th>
-                        <th>OWNER MOBILE NO.</th>
-                        <th>OWNER EMAIL</th>
-                        <th>POSTED</th>
+                    <th style="text-align:center;">#</th>
+                        <th style="text-align:center;">Book Title</th>
+                        <th style="text-align:center;">Price</th>
+                        <th style="text-align:center;">Home Address</th>
+                        <th style="text-align:center;">Book Status</th>
+                        <th style="text-align:center;">Full Name</th>
+                        <th style="text-align:center;">Phone Number</th>
+                        <th style="text-align:center;">Email</th>
+                        <th style="text-align:center;">Date Posted</th>
                 </thead>
                 <tbody id="history_data_output"></tbody>
             </table>

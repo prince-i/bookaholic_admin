@@ -35,13 +35,13 @@
 ?>
 <nav class="#388e3c green darken-2">
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo"><?=$full_name;?></a>
+      <a href="#" style="margin-left:15px" class="brand-logo"> Hi, <?=$full_name;?></a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="#" data-target="masterlist_admin" class="modal-trigger" onclick="load_admin_user()">Manage Admin</a></li>
         <li><a href="#" class="modal-trigger" data-target="manage_user" onclick="load_users()">Manage Users</a></li>
         <li><a href="#" data-target="history_logs" class="modal-trigger" onclick="load_for_approve()">For Approval <span id="apprCount" class="badge new red">0</span></a></li>
-        <li><a href="#" data-target="modal-logout" class="modal-trigger">Logout</a></li>
+        <li><a href="#" data-target="modal-logout" class="modal-trigger">Sign out</a></li>
       </ul>
     </div>
   </nav>
@@ -50,7 +50,7 @@
         <li><a href="#" data-target="masterlist_admin" class="modal-trigger" onclick="load_admin_user()">Manage Admin</a></li>
         <li><a href="#" class="modal-trigger" data-target="manage_user" onclick="load_users()">Manage Users</a></li>
         <li><a href="#" data-target="history_logs" class="modal-trigger" onclick="load_for_approve()">For Approval <span id="apprCount" class="badge new red">0</span></a></li>
-        <li><a href="#" data-target="modal-logout" class="modal-trigger">Logout</a></li>
+        <li><a href="#" data-target="modal-logout" class="modal-trigger">Sign out</a></li>
   </ul>
 <!-- PLAN LIST -->
 
@@ -62,7 +62,7 @@
             <div class="col s4">
                 <div class="card">
                     <div class="card-content">
-                        <h5 style="color:#3adb37">NO. OF SELLERS</h5>
+                        <h5 style="color:#136912;">NO. OF SELLERS</h5>
                         <span id="total_seller" class="flow-text"></span>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
             <div class="col s4">
                 <div class="card">
                     <div class="card-content">
-                        <h5 style="color:#38a336;">NO. OF BUYERS</h5>
+                        <h5 style="color:#136912;">NO. OF BUYERS</h5>
                         <span id="total_buyer" class="flow-text"></span>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
             <div class="col s4">
                 <div class="card">
                     <div class="card-content">
-                        <h5 style="color:#136912;">NO. OF PROPERTIES</h5>
+                        <h5 style="color:#136912;">NO. OF BOOKS</h5>
                         <span id="total_property" class="flow-text"></span>
                     </div>
                 </div>
@@ -97,14 +97,14 @@
                 </div>
 
                 <div class="input-field col l2 m12 s12">
-                    <input type="text" name="" id="partscode_search" ><label for="keyword">Property Name</label>
+                    <input type="text" name="" id="partscode_search" ><label for="keyword">Book Title Name</label>
                 </div>
                 <!-- SHIFT -->
                 <div class="input-field col l2 m12 s12">
                     <select name="" id="shift_search" class="browser-default z-depth-1" style="border-radius:30px;">
-                        <option value="">--SELECT PROP STATUS--</option>
+                        <option value="">SELECT BOOK STATUS</option>
                         <option value="0">PENDING TO POST</option>
-                        <option value="1">FOR APPROVAL</option>
+                        <option value="1">POSTED</option>
                         <option value="2">SOLD</option>
                         <option value="3">DELETED/HIDDEN</option>
                        
@@ -128,17 +128,15 @@
                 <table class="centered" id="planTable">
                     <thead style="font-size:12px;">
                         <th>#</th>
-                        <th>IMAGE</th>
-                        <th>RENT STATUS</th>
-                        <th>PROPERTY NAME</th>
-                        <th>DESCRIPTION</th>
-                        <th>PRICE</th>
-                        <th>ADDRESS</th>
-                        <th>PROPERTY STATUS</th>
-                        <th>OWNER NAME</th>
-                        <th>OWNER MOBILE NO.</th>
-                        <th>OWNER EMAIL</th>
-                        <th>POSTED</th>
+                        <th>Book Image</th>
+                        <th>Book Title</th>
+                        <th>Price</th>
+                        <th>Home Address</th>
+                        <th>Book Status</th>
+                        <th>Full Name</th>
+                        <th>Phone number</th>
+                        <th>Email Address</th>
+                        <th>Date Posted</th>
                     </thead>
                     <tbody id="plan_data"></tbody>
                 </table>

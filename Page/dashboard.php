@@ -26,7 +26,7 @@
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="#" data-target="master_view_only" class="modal-trigger" onclick="load_masterlist()">Master List</a></li>
         <li><a href="#" data-target="history_logs" class="modal-trigger" onclick="load_history()">History Logs</a></li>
-        <li><a href="#" data-target="modal-logout" class="modal-trigger">Logout</a></li>
+        <li><a href="#" data-target="modal-logout" class="modal-trigger">Sign out</a></li>
       </ul>
     </div>
   </nav>

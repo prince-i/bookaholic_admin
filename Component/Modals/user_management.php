@@ -12,7 +12,7 @@
             <div class="col s6 input-field">
                 <select class="browser-default z-depth-1" id="acc_role" onchange="load_users()">
                     <option value="1">SELLER</option>
-                    <option value="2">BUYER</option>
+                    <option value="0">BUYER</option>
                 </select>
             </div>
             <div class="col s6 input-field">
@@ -42,7 +42,6 @@
                     </th>
                     <th>USER ID</th>
                     <th>EMAIL</th>
-                    <th>PASSWORD</th>
                     <th>FULL NAME</th>
                     <th>USER TYPE</th>
                     <th>ACCOUNT CREATED</th>

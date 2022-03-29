@@ -20,7 +20,6 @@
             <table class="centered" id="userMasterlist">
                 <thead> 
                     <th>USER ID</th>
-                    <th>PASSWORD (MD5)</th>
                     <th>FULL NAME</th>
                 </thead>
                 <tbody id="adminData"></tbody>

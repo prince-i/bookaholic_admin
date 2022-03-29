@@ -9,7 +9,7 @@
                 <input type="text" name="" id="addUserID"><label for="">USER EMAIL</label>
             </div>
             <div class="input-field col s6">
-                <input type="text" name="" id="addPassword"><label for="">USER PASSWORD</label>
+                <input type="password" name="" id="addPassword"><label for="">USER PASSWORD</label>
             </div>
             <div class="input-field col s6">
                 <input type="text" name="" id="addFname"><label for="">FIRST NAME</label>
@@ -18,13 +18,13 @@
                 <input type="text" name="" id="addLname"><label for="">LAST NAME</label>
             </div>
             <div class="input-field col s6">
-                <input type="text" name="" id="addPhone" maxlength="11"><label for="">PHONE</label>
+                <input type="number" name="" id="addPhone" maxlength="11"><label for="">PHONE</label>
             </div>
             <div class="input-field col s6 ">
                 <select name="" id="addUsertype" class="browser-default z-depth-1">
                 <option value="">--USER TYPE--</option>
                 <option value="1">SELLER</option>
-                <option value="2">BUYER</option>
+                <option value="0">BUYER</option>
                 </select>
             </div>
         </div>

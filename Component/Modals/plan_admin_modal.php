@@ -9,27 +9,27 @@
         </div>
         <div class="col s12" style="font-size:20px;font-family:arial;">
             <div class="col s6">
-                <b>Property Owner:</b>
+                <b>Full Name</b>
                 <span id="propowner"></span>
             </div>
             <div class="col s6">
-                <b>Property Name:</b>
+                <b>Book Title:</b>
                 <span id="propname"></span>
             </div>
             <div class="col s6">
-                <b>Owner Contact:</b>
+                <b>Email Address / Phone Number:</b>
                 <span id="propdesc"></span>
             </div>
             <div class="col s6">
-                <b>Price:</b>
+                <b>Price: ₱</b>
                 <span id="prop_price"></span>
             </div>
             <div class="col s6">
-                <b>Address:</b>
+                <b>Home Address:</b>
                 <span id="prop_address"></span>
             </div>
             <div class="col s6">
-                <b>Rent Status:</b>
+                <b>Status:</b>
                 <span id="rent_stat"></span>
             </div>
         </div>
