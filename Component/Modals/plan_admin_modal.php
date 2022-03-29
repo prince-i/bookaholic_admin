@@ -28,10 +28,10 @@
                 <b>Home Address:</b>
                 <span id="prop_address"></span>
             </div>
-            <div class="col s6">
+           <!--  <div class="col s6">
                 <b>Status:</b>
                 <span id="rent_stat"></span>
-            </div>
+            </div> -->
         </div>
 
         <div class="col s12">
