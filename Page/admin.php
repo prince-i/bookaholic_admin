@@ -685,6 +685,7 @@ function count_pending(){
 
 const load_admin_user = () =>{
     var search_admin = $('#searchAdmin').val();
+    var search_type = $('#searchType').val();
     $.ajax({
         url: '../process/admin_function.php',
         type: 'POST',
@@ -692,6 +693,7 @@ const load_admin_user = () =>{
         data:{
             method: 'fetch_admin',
             search_admin:search_admin,
+            search_type:search_type
         },success:function(data){
             $('#adminData').html(data);
         }

@@ -10,6 +10,13 @@
                 <input type="text" name="" id="searchAdmin" onchange="load_admin_user()"><label for="">Search</label>
             </div>
             <div class="col s6 input-field">
+                <select name="" id="searchType" class="browser-default z-depth-1" onchange="load_admin_user()">
+                    <option value="">SELECT USER TYPE</option>
+                    <option value="normal">USER</option>
+                    <option value="admin">ADMIN</option>
+                </select>
+            </div>
+            <div class="col s6 input-field">
                 <button class="btn #263238 green right modal-trigger" data-target="add_admin_modal">Add Admin</button>
             </div>
         </div>

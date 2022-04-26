@@ -272,7 +272,8 @@
 
     if($method == 'fetch_admin'){
         $search = $_POST['search_admin'];
-        $adminQL = "SELECT *FROM tbl_admin WHERE userid LIKE '$search%' OR full_name LIKE '$search%'";
+        $type = $_POST['search_type'];
+        $adminQL = "SELECT *FROM tbl_admin WHERE (userid LIKE '$search%' OR full_name LIKE '$search%') AND user_type LIKE '$type%'";
         $stmt = $conn->prepare($adminQL);
         $stmt->execute();
         foreach($stmt->fetchall() as $x){
