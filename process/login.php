@@ -23,7 +23,7 @@
             }
             if($userType == 'normal'){
                 $_SESSION['username'] = $username;
-                header('location: Page/dashboard.php');
+                header('location: Page/admin.php');
             }else{
                 $_SESSION['username'] = $username;
                 header('location: Page/admin.php');

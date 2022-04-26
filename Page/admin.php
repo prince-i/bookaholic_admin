@@ -3,8 +3,12 @@
     
     
     if($user_type == 'normal'){
-        session_unset();
-        session_destroy();
+        // session_unset();
+        // session_destroy();
+        echo "<style>";
+        echo "#manage_admin,#manage_users{display:none;}";
+        echo "#delPlanBtn{display:none;}";
+        echo "</style>";
     }
 
 ?>
@@ -38,8 +42,8 @@
       <a href="#" style="margin-left:15px" class="brand-logo"> Hi, <?=$full_name;?></a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="#" data-target="masterlist_admin" class="modal-trigger" onclick="load_admin_user()">Manage Admin</a></li>
-        <li><a href="#" class="modal-trigger" data-target="manage_user" onclick="load_users()">Manage Users</a></li>
+        <li><a href="#" data-target="masterlist_admin" id="manage_admin" class="modal-trigger" onclick="load_admin_user()">Manage Admin</a></li>
+        <li><a href="#" class="modal-trigger" id="manage_users" data-target="manage_user" onclick="load_users()">Manage Users</a></li>
         <li><a href="#" data-target="history_logs" class="modal-trigger" onclick="load_for_approve()">For Approval <span id="apprCount" class="badge new red">0</span></a></li>
         <li><a href="#" data-target="modal-logout" class="modal-trigger">Sign out</a></li>
       </ul>
