@@ -279,6 +279,7 @@
                echo '<tr onclick="get_admin(&quot;'.$x['id'].'~!~'.$x['userid'].'~!~'.$x['password'].'~!~'.$x['full_name'].'&quot;)" data-target="edit_admin" class="modal-trigger" style="cursor:pointer;">';
                 echo '<td>'.$x['userid'].'</td>';
                 echo '<td>'.$x['full_name'].'</td>';
+                echo '<td>'.$x['user_type'].'</td>';
                 echo '</tr>';
         }
     }

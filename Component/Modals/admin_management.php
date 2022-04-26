@@ -21,6 +21,7 @@
                 <thead> 
                     <th>USER ID</th>
                     <th>FULL NAME</th>
+                    <th>USER TYPE</th>
                 </thead>
                 <tbody id="adminData"></tbody>
             </table>
