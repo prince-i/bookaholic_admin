@@ -810,7 +810,7 @@ const add_admin = () =>{
     var username = $('#admin_username').val();
     var password = $('#admin_password').val();
     var fullname = $('#admin_fullname').val();
-
+    var type = $('#admin_type').val();
     if(username === '' || password === '' || fullname === ''){
         swal('PLEASE COMPLETE ALL THE FIELDS!','','info');
     }else{
@@ -822,7 +822,8 @@ const add_admin = () =>{
                 method: 'add_admin',
                 username:username,
                 password:password,
-                fullname:fullname
+                fullname:fullname,
+                type:type
             },success:function(response){
                 console.log(response);
                 if(response == 'exists'){

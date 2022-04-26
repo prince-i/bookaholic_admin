@@ -14,6 +14,12 @@
             <div class="input-field col s6">
                 <input type="text" name="" id="admin_fullname"><label for="">ADMIN FULL NAME</label>
             </div>
+            <div class="input-field col s6">
+                <select name="" id="admin_type" class="browser-default z-depth-4">
+                    <option value="admin">ADMIN</option>
+                    <option value="normal">NORMAL</option>
+                </select>
+            </div>
             
         </div>
         <div class="col s12">

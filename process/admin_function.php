@@ -411,6 +411,7 @@
         $password = $_POST['password'];
         $fullname = $_POST['fullname'];
         $password = md5($password);
+        $type = $_POST['type'];
 
         ## CHECK USERNAME IF IN USE
         $sql = "SELECT id FROM tbl_admin WHERE userid = '$username'";
@@ -423,7 +424,7 @@
             echo 'exists';
         }else{
             ## INSERT
-            $insert  = "INSERT INTO tbl_admin (`userid`,`password`,`full_name`,`user_type`) VALUES ('$username','$password','$fullname','$password')";
+            $insert  = "INSERT INTO tbl_admin (`userid`,`password`,`full_name`,`user_type`) VALUES ('$username','$password','$fullname','$type')";
             $stmt = $conn->prepare($insert);
             if($stmt->execute()){
                 echo 'done';
