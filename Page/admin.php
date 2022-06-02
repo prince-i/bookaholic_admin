@@ -36,6 +36,7 @@
     include '../Component/Modals/edit_admin.php';
     include '../Component/Modals/approve_prop.php';
     include '../Component/Modals/add_admin_modal.php';
+    include '../Component/Modals/appointment.php';
 ?>
 <nav class="#388e3c green darken-2">
     <div class="nav-wrapper">
@@ -45,6 +46,7 @@
         <li><a href="#" data-target="masterlist_admin" id="manage_admin" class="modal-trigger" onclick="load_admin_user()">Manage Admin</a></li>
         <li><a href="#" class="modal-trigger" id="manage_users" data-target="manage_user" onclick="load_users()">Manage Users</a></li>
         <li><a href="#" data-target="history_logs" class="modal-trigger" onclick="load_for_approve()">For Approval <span id="apprCount" class="badge new red">0</span></a></li>
+        <li><a href="#" class="modal-trigger" id="manage_appointment" data-target="manage_appointment" onclick="load_appointment()">Appointments</a></li>
         <li><a href="#" data-target="modal-logout" class="modal-trigger">Sign out</a></li>
       </ul>
     </div>
@@ -840,6 +842,31 @@ const add_admin = () =>{
             }
         });
     }
+}
+
+
+const load_appointment =()=>{
+    var app_customer = $('#customer_name_app').val();
+    var app_property = $('#prop_name_app').val();
+    var app_status = $('#app_status').val();
+    var date_from = $('#app_date_from').val();
+    var date_to = $('#app_date_to').val();
+    $.ajax({
+        url: '../process/admin_function.php',
+        type: 'POST',
+        cache: false,
+        data:{
+            method: 'appointments',
+            app_customer:app_customer,
+            app_property:app_property,
+            app_status:app_status,
+            date_from:date_from,
+            date_to:date_to
+        },success:function(data){
+            // console.log(data);
+            $('#appoint_data').html(data);
+        }
+    });
 }
 </script>
 </body>

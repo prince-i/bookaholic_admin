@@ -436,6 +436,46 @@
         }
     }
 
+    if($method == 'appointments'){
+        $customer = $_POST['app_customer'];
+        $property = $_POST['app_property'];
+        $status = $_POST['app_status'];
+        $from = $_POST['date_from'];
+        $to = $_POST['date_to'];
+
+     $SQL = "SELECT CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) AS NAME,tbl_accounts.acc_email AS EMAIL,tbl_accounts.acc_phone AS PHONE, tbl_property.prop_image AS PROP_IMG, tbl_property.prop_name AS PROPNAME, tbl_property.prop_price AS PROP_PRICE, tbl_appointment.app_date as APP_DATE, tbl_appointment.app_time as APP_TIME, tbl_appointment.app_comment as APPOINT_COMMENT, tbl_appointment.app_comment_approve AS APPOINT_COMMENT_APPR,tbl_appointment.app_status AS APPOINT_STAT, tbl_appointment.app_decline AS APPOINT_DECLINE, tbl_appointment.app_approve AS APPOINT_APPROVE, tbl_appointment.app_review as APPOINT_REVIEW FROM tbl_appointment LEFT JOIN tbl_property ON tbl_appointment.prop_id = tbl_property.prop_id LEFT JOIN tbl_accounts ON tbl_accounts.acc_id = tbl_appointment.acc_id WHERE CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) LIKE '$customer%' AND (tbl_appointment.app_date >= '$from' AND tbl_appointment.app_date <= '$to')
+     AND tbl_appointment.app_status LIKE '$status%' AND tbl_property.prop_name LIKE '$property%'
+        ";
+        $stmt = $conn->prepare($SQL);
+        $stmt->execute();
+        if($stmt->rowCount() > 0){
+            $c = 0;
+            foreach($stmt->fetchALl() as $x){
+                $c++;
+                $time_ = explode("T",$x['APP_TIME']);
+                $time = $time_[1];
+                $time = substr($time,0,8);
+
+                echo '<tr>';
+                echo '<td>'.$c.'</td>';
+                echo '<td>'.$x['NAME'].'</td>';
+                echo '<td>'.$x['EMAIL'].'</td>';
+                echo '<td>'.$x['PHONE'].'</td>';
+                echo '<td><img src="'.$x['PROP_IMG'].'" class="responsive-img"/></td>';
+                echo '<td>'.$x['PROPNAME'].'</td>';
+                echo '<td>'.$x['PROP_PRICE'].'</td>';
+                echo '<td>'.$x['APP_DATE'].'</td>';
+                echo '<td>'.$time.'</td>';
+                echo '<td>'.$x['APPOINT_COMMENT'].'</td>';
+                echo '<td>'.$x['APPOINT_COMMENT_APPR'].'</td>';
+                echo '<td>'.$x['APPOINT_STAT'].'</td>';
+                echo '<td>'.$x['APPOINT_DECLINE'].'</td>';
+                echo '<td>'.$x['APPOINT_APPROVE'].'</td>';
+                echo '<td>'.$x['APPOINT_REVIEW'].'</td>';
+                echo '</tr>';
+            }
+        }
+    }
 
 
     // KILL CONNECTION
