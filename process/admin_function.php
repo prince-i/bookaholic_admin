@@ -535,7 +535,21 @@
                 if($status == '8'){
                     $stat = 'PENDING CANCELLATION';
                 }
-                echo '<tr onclick="get_checkout_data(&quot;'.$x['CO_ID'].'~!~'.$x['CHK_STATUS'].'&quot;)" style="cursor:pointer;"
+                echo '<tr onclick="get_checkout_data(&quot;'.
+                $x['CO_ID'].'~!~'.
+                $x['CHK_STATUS'].'~!~'.
+                $x['NAME'].'~!~'.
+                $x['EMAIL'].'~!~'.
+                $x['PHONE'].'~!~'.
+                $x['CO_IMG'].'~!~'.
+                $x['PROPNAME'].'~!~'.
+                $x['PROP_PRICE'].'~!~'.
+                $x['SELLER'].'~!~'.
+                $x['SELLER_EMAIL'].'~!~'.
+                $x['SELLER_PHONE'].'~!~'.
+                $x['LOCATION'].'~!~'.
+                $x['LANDMARK'].'~!~'.
+                '&quot;)" style="cursor:pointer;"
                 class="modal-trigger" data-target="update_chk_out">';
                 echo '<td>'.$c.'</td>';
                 echo '<td>'.$x['NAME'].'</td>';
@@ -549,8 +563,6 @@
                 echo '<td>'.$x['SELLER_PHONE'].'</td>';
                 echo '<td>'.$x['LOCATION'].'</td>';
                 echo '<td>'.$x['LANDMARK'].'</td>';
-               
-              
                 echo '<td>'.$stat.'</td>';
                 
                 echo '</tr>';

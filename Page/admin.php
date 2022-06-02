@@ -899,6 +899,17 @@ const get_checkout_data =(params)=>{
     var params = params.split('~!~');
     $('#co_id_ups').val(params[0]);
     $('#co_status_ups').val(params[1]);
+    $('#customer_name').html(params[2])
+    $('#co_customer_email').html(params[3])
+    $('#co_customer_phone').html(params[4])
+    $('#co_prop_img').attr('src',params[5])
+    $('#co_prop_name').html(params[6])
+    $('#co_prop_price').html(params[7])
+    $('#co_seller').html(params[8])
+    $('#co_seller_email').html(params[9])
+    $('#co_seller_phone').html(params[10])
+    $('#co_location').html(params[11])
+    $('#co_landmark').html(params[12])
 }
 
 const update_checkout =()=>{
