@@ -25,9 +25,26 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col s2" id="approval_buttons">
+                <button class="btn-small green col s12" id="approve_approval" disabled onclick="get_appr_to_approve()">APPROVE</button>
+            </div>
+            <div class="col s2">
+                <button class="btn-small red col s12" id="decline_approval" onclick="get_appr_to_decline()" disabled>DECLINE</button>
+            </div>
+        </div>
+
         <div class="col s12 collection" style="max-height:80vh;border:1px solid black;overflow:auto; text-align:center;">
             <table id="history_table" style="word-break:break; text-align:center;">
                 <thead>
+                        <th>
+                        <p>
+                            <label>
+                                <input type="checkbox" name="" id="checkAllApproval" onchange="select_all_approval()">
+                                <span></span>
+                            </label>
+                         </p>   
+                        </th>
                     <th style="text-align:center;">#</th>
                         <th style="text-align:center;">Book Title</th>
                         <th style="text-align:center;">Price</th>

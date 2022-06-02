@@ -7,7 +7,7 @@
         <h5 class="center">UPDATE CHECKOUT STATUS</h5>
         <div class="col s12">
             <div class="col s12 input-field">
-                <input type="text" name="" id="co_id_ups">
+                <input type="hidden" name="" id="co_id_ups">
             </div>
             <div class="col s12 input-field">
                 <select name="" id="co_status_ups" class="browser-default">
@@ -19,6 +19,7 @@
                     <option value="5">[5] COMPLETED</option>
                     <option value="6">[6] TO PROCESS</option>
                     <option value="7">[7] PAID</option>
+                    <option value="8">[8] PENDING CANCELLATION</option>
                 </select>
             </div>
 

@@ -672,6 +672,7 @@ const load_for_approve = () =>{
         },success:function(response){
             // console.log(response);
             document.querySelector('#history_data_output').innerHTML = response;
+            get_approval_select();
         }
     });
 }
@@ -923,6 +924,125 @@ const update_checkout =()=>{
         }
     })
 }
+
+
+const select_all_approval =()=>{
+    var thisbutton = document.querySelector('#checkAllApproval');
+    if(thisbutton.checked == true){
+        $('.singleCheckApproval').each(function(){
+            this.checked = true;
+        });
+    }else{
+        $('.singleCheckApproval').each(function(){
+            this.checked = false;
+        });
+    }
+    get_approval_select();
+}
+
+const uncheck_all_approval =()=>{
+    var select_all = document.getElementById('checkAllApproval');
+    select_all.checked = false;
+    $('.singleCheckApproval').each(function(){
+        this.checked=false;
+    });
+    get_user_select();
+}
+
+
+const get_approval_select =()=>{
+    var checkedArr = [];
+    $('input.singleCheckApproval:checkbox:checked').each(function(){
+        checkedArr.push($(this).val());
+    });
+    console.log(checkedArr);
+    var number_of_selected = checkedArr.length;
+    if(number_of_selected > 0){
+        $('#approve_approval').attr('disabled',false)
+        $('#decline_approval').attr('disabled',false)
+    }else{
+        $('#approve_approval').attr('disabled',true)
+        $('#decline_approval').attr('disabled',true)
+    }
+}
+
+
+const get_appr_to_approve =()=>{
+    var approvalArray = [];
+    $('input.singleCheckApproval:checkbox:checked').each(function(){
+        approvalArray.push($(this).val());
+    });
+    console.log(approvalArray);
+    var val_selected_user = approvalArray.length;
+    if(val_selected_user > 0){
+        var x = confirm("Click OK to confirm approval!");
+        if(x == true){
+           
+            $('#approve_approval').attr('disabled',true)
+             $('#decline_approval').attr('disabled',true)
+            $.ajax({
+                url: '../process/admin_function.php',
+                type: 'POST',
+                cache: false,
+                data:{
+                    method: 'approve_prop',
+                    approvalArray:approvalArray
+                },success:function(response){
+                   if(response == 'done'){
+                    swal('SUCCESSFULLY APPROVED!','','info');
+                    load_for_approve();
+                   }else{
+                       swal('Error to approving!','','info');
+                   }
+                   get_approval_select();
+                }
+            });
+        }else{
+            // DO NOTHING
+        }
+    }else{
+        swal('NO ITEM IS SELECTED','','info');
+    }
+}
+
+const get_appr_to_decline =()=>{
+    var declineArray = [];
+    $('input.singleCheckApproval:checkbox:checked').each(function(){
+        declineArray.push($(this).val());
+    });
+    console.log(declineArray);
+    var val_selected_user = declineArray.length;
+    if(val_selected_user > 0){
+        var x = confirm("Click OK to confirm decline!");
+        if(x == true){
+           
+            $('#approve_approval').attr('disabled',true)
+             $('#decline_approval').attr('disabled',true)
+            $.ajax({
+                url: '../process/admin_function.php',
+                type: 'POST',
+                cache: false,
+                data:{
+                    method: 'decline_prop',
+                    declineArray:declineArray
+                },success:function(response){
+                   if(response == 'done'){
+                    swal('SUCCESSFULLY DECLINED!','','info');
+                    load_for_approve();
+                   }else{
+                       swal('Error in declining!','','info');
+                   }
+                   get_approval_select();
+                }
+            });
+        }else{
+            // DO NOTHING
+        }
+    }else{
+        swal('NO ITEM IS SELECTED','','info');
+    }
+}
+
 </script>
 </body>
 </html>

@@ -353,10 +353,18 @@
                 }
 
 
-                echo '<tr style="cursor:pointer;" class="modal-trigger" data-target="approved_prop"
-                    onclick="get_for_approve(&quot;'
-                    .$x['prop_id']
-                    .'&quot;)" >';
+                // echo '<tr style="cursor:pointer;" class="modal-trigger" data-target="approved_prop"
+                //     onclick="get_for_approve(&quot;'
+                //     .$x['prop_id']
+                //     .'&quot;)" >';
+                echo '<td>
+                    <p>
+                        <label>
+                            <input type="checkbox" name="" id="checkApproval" class="singleCheckApproval" value="'.$x['prop_id'].'" onclick="get_approval_select()">
+                            <span></span>
+                        </label>
+                    </p>    
+                    </td>';
                 echo '<td style="text-align:center;">'.$c.'</td>';
                 echo '<td style="text-align:center;">'.$x['prop_name'].'</td>';
                 echo '<td style="text-align:center;"> ₱ '.$x['prop_price'].'</td>';
@@ -385,28 +393,7 @@
         }
     }
 
-    if($method == 'appr_prop'){
-        $id = $_POST['id'];
-        ## PENDING TO POST --> POSTED
-        $sql = "UPDATE `tbl_property` SET prop_status = 1 WHERE prop_id = '$id'";
-        $stmt = $conn->prepare($sql);
-        if($stmt->execute()){
-            echo '1';
-        }else{
-            echo '0';
-        }
-    }
 
-    if($method == 'decline_prop'){
-        $id = $_POST['id'];
-        $sql = "UPDATE `tbl_property` SET prop_status = 3 WHERE prop_id = '$id'";
-        $stmt = $conn->prepare($sql);
-        if($stmt->execute()){
-            echo '1';
-        }else{
-            echo '0';
-        }
-    }
 
     if($method == 'add_admin'){
         $username = $_POST['username'];
@@ -443,9 +430,15 @@
         $from = $_POST['date_from'];
         $to = $_POST['date_to'];
 
-     $SQL = "SELECT CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) AS NAME,tbl_accounts.acc_email AS EMAIL,tbl_accounts.acc_phone AS PHONE, tbl_property.prop_image AS PROP_IMG, tbl_property.prop_name AS PROPNAME, tbl_property.prop_price AS PROP_PRICE, tbl_appointment.app_date as APP_DATE, tbl_appointment.app_time as APP_TIME, tbl_appointment.app_comment as APPOINT_COMMENT, tbl_appointment.app_comment_approve AS APPOINT_COMMENT_APPR,tbl_appointment.app_status AS APPOINT_STAT, tbl_appointment.app_decline AS APPOINT_DECLINE, tbl_appointment.app_approve AS APPOINT_APPROVE, tbl_appointment.app_review as APPOINT_REVIEW FROM tbl_appointment LEFT JOIN tbl_property ON tbl_appointment.prop_id = tbl_property.prop_id LEFT JOIN tbl_accounts ON tbl_accounts.acc_id = tbl_appointment.acc_id WHERE CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) LIKE '$customer%' AND (tbl_appointment.app_date >= '$from' AND tbl_appointment.app_date <= '$to')
-     AND tbl_appointment.app_status LIKE '$status%' AND tbl_property.prop_name LIKE '$property%'
-        ";
+
+        $SQL = "SELECT CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) AS NAME,tbl_accounts.acc_email AS EMAIL,tbl_accounts.acc_phone AS PHONE, tbl_property.prop_image AS PROP_IMG, tbl_property.prop_name AS PROPNAME, tbl_property.prop_price AS PROP_PRICE, 
+        (SELECT CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) FROM tbl_accounts WHERE acc_id = tbl_appointment.id_acc LIMIT 1) AS SELLER,
+        (SELECT tbl_accounts.acc_email FROM tbl_accounts WHERE acc_id = tbl_appointment.id_acc LIMIT 1) AS SELLER_EMAIL,
+        (SELECT tbl_accounts.acc_phone FROM tbl_accounts WHERE acc_id = tbl_appointment.id_acc LIMIT 1) AS SELLER_PHONE,
+        tbl_appointment.app_date as APP_DATE, tbl_appointment.app_time as APP_TIME,tbl_appointment.app_status AS APPOINT_STAT FROM tbl_appointment LEFT JOIN tbl_property ON tbl_appointment.prop_id = tbl_property.prop_id LEFT JOIN tbl_accounts ON tbl_accounts.acc_id = tbl_appointment.acc_id  WHERE CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) LIKE '$customer%' AND (tbl_appointment.app_date >= '$from' AND tbl_appointment.app_date <= '$to')
+        AND tbl_appointment.app_status LIKE '$status%' AND tbl_property.prop_name LIKE '$property%' ORDER BY CONCAT(tbl_appointment.app_date,' ',tbl_appointment.app_time) DESC";
+
+
         $stmt = $conn->prepare($SQL);
         $stmt->execute();
         if($stmt->rowCount() > 0){
@@ -481,14 +474,13 @@
                 echo '<td><img src="'.$x['PROP_IMG'].'" class="responsive-img"/></td>';
                 echo '<td>'.$x['PROPNAME'].'</td>';
                 echo '<td>'.$x['PROP_PRICE'].'</td>';
+                echo '<td>'.$x['SELLER'].'</td>';
+                echo '<td>'.$x['SELLER_EMAIL'].'</td>';
+                echo '<td>'.$x['SELLER_PHONE'].'</td>';
                 echo '<td>'.$x['APP_DATE'].'</td>';
                 echo '<td>'.$time.'</td>';
-                echo '<td>'.$x['APPOINT_COMMENT'].'</td>';
-                echo '<td>'.$x['APPOINT_COMMENT_APPR'].'</td>';
                 echo '<td>'.$status_.'</td>';
-                echo '<td>'.$x['APPOINT_DECLINE'].'</td>';
-                echo '<td>'.$x['APPOINT_APPROVE'].'</td>';
-                echo '<td>'.$x['APPOINT_REVIEW'].'</td>';
+              
                 echo '</tr>';
             }
         }
@@ -500,7 +492,13 @@
         $prop_co = $_POST['prop_co'];
         $status = $_POST['status'];
 
-        $query = "SELECT tbl_checkout.co_id AS CO_ID, CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) AS NAME,tbl_accounts.acc_email AS EMAIL,tbl_accounts.acc_phone AS PHONE, tbl_checkout.co_image AS CO_IMG, tbl_property.prop_name AS PROPNAME, tbl_property.prop_price AS PROP_PRICE, tbl_checkout.co_loc AS LOCATION, tbl_checkout.co_landmark AS LANDMARK, tbl_checkout.co_special AS SPECIAL, tbl_checkout.co_comment AS COMMENT, tbl_checkout.co_comment_approve AS APPROVE_COMMENT, tbl_checkout.co_status AS CHK_STATUS, tbl_checkout.co_decline AS DECLINE, tbl_checkout.co_approve AS APPROVE, tbl_checkout.co_review AS REVIEW, tbl_checkout.co_cancel AS CANCEL, tbl_checkout.co_payment AS PAYMENT FROM tbl_checkout LEFT JOIN tbl_property ON tbl_checkout.prop_id = tbl_property.prop_id LEFT JOIN tbl_accounts ON tbl_accounts.acc_id = tbl_checkout.acc_id WHERE CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) LIKE '$customer%' AND tbl_property.prop_name LIKE '$prop_co%' AND tbl_checkout.co_status LIKE '$status%'";
+      
+
+        $query = "SELECT tbl_checkout.co_id AS CO_ID, CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) AS NAME,tbl_accounts.acc_email AS EMAIL,tbl_accounts.acc_phone AS PHONE, tbl_checkout.co_image AS CO_IMG, tbl_property.prop_name AS PROPNAME, tbl_property.prop_price AS PROP_PRICE,
+        (SELECT CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) FROM tbl_accounts WHERE acc_id = tbl_checkout.id_acc LIMIT 1) AS SELLER,
+        (SELECT tbl_accounts.acc_email FROM tbl_accounts WHERE acc_id = tbl_checkout.id_acc LIMIT 1) AS SELLER_EMAIL,
+        (SELECT tbl_accounts.acc_phone FROM tbl_accounts WHERE acc_id = tbl_checkout.id_acc LIMIT 1) AS SELLER_PHONE,
+        tbl_checkout.co_loc AS LOCATION, tbl_checkout.co_landmark AS LANDMARK, tbl_checkout.co_special AS SPECIAL, tbl_checkout.co_comment AS COMMENT, tbl_checkout.co_comment_approve AS APPROVE_COMMENT, tbl_checkout.co_status AS CHK_STATUS, tbl_checkout.co_decline AS DECLINE, tbl_checkout.co_approve AS APPROVE, tbl_checkout.co_review AS REVIEW, tbl_checkout.co_cancel AS CANCEL, tbl_checkout.co_payment AS PAYMENT FROM tbl_checkout LEFT JOIN tbl_property ON tbl_checkout.prop_id = tbl_property.prop_id LEFT JOIN tbl_accounts ON tbl_accounts.acc_id = tbl_checkout.acc_id  WHERE CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) LIKE '$customer%' AND tbl_property.prop_name LIKE '$prop_co%' AND tbl_checkout.co_status LIKE '$status%' ORDER BY tbl_checkout.co_id DESC";
 
         $stmt = $conn->prepare($query);
         $stmt->execute();
@@ -534,26 +532,27 @@
                 if($status == '7'){
                     $stat = 'PAID';
                 }
+                if($status == '8'){
+                    $stat = 'PENDING CANCELLATION';
+                }
                 echo '<tr onclick="get_checkout_data(&quot;'.$x['CO_ID'].'~!~'.$x['CHK_STATUS'].'&quot;)" style="cursor:pointer;"
                 class="modal-trigger" data-target="update_chk_out">';
                 echo '<td>'.$c.'</td>';
                 echo '<td>'.$x['NAME'].'</td>';
                 echo '<td>'.$x['EMAIL'].'</td>';
                 echo '<td>'.$x['PHONE'].'</td>';
-                echo '<td><img src="'.$x['CO_IMG'].'" class="responsive-img"/></td>';
+                echo '<td><img src="'.$x['CO_IMG'].'" class="responsive-img" width="200"/></td>';
                 echo '<td>'.$x['PROPNAME'].'</td>';
                 echo '<td>'.$x['PROP_PRICE'].'</td>';
+                echo '<td>'.$x['SELLER'].'</td>';
+                echo '<td>'.$x['SELLER_EMAIL'].'</td>';
+                echo '<td>'.$x['SELLER_PHONE'].'</td>';
                 echo '<td>'.$x['LOCATION'].'</td>';
                 echo '<td>'.$x['LANDMARK'].'</td>';
-                echo '<td>'.$x['SPECIAL'].'</td>';
-                echo '<td>'.$x['COMMENT'].'</td>';
-                echo '<td>'.$x['APPROVE_COMMENT'].'</td>';
+               
+              
                 echo '<td>'.$stat.'</td>';
-                echo '<td>'.$x['DECLINE'].'</td>';
-                echo '<td>'.$x['APPROVE'].'</td>';
-                echo '<td>'.$x['REVIEW'].'</td>';
-                echo '<td>'.$x['CANCEL'].'</td>';
-                echo '<td>'.$x['PAYMENT'].'</td>';
+                
                 echo '</tr>';
             }
         }
@@ -572,6 +571,74 @@
        }
         
     }
+
+    if($method == 'approve_prop'){
+        $prop = [];
+        $prop = $_POST['approvalArray'];
+        // COUNT ALL USERS TO DELETE
+        $selectedUser = count($prop);
+        foreach($prop as $x){
+           $sql = "UPDATE `tbl_property` SET prop_status = 1 WHERE prop_id = '$x'";
+           $stmt = $conn->prepare($sql);
+           if($stmt->execute()){
+            //    EVERY SUCCESSFUL QUERY DEDUCT THE USER COUNT INSIDE THE ARRAY
+               $selectedUser = $selectedUser - 1;
+           }
+        }
+        if($selectedUser == 0){
+            echo 'done';
+        }else{
+            echo 'error';
+        }
+    }
+
+    if($method == 'decline_prop'){
+        $prop = [];
+        $prop = $_POST['declineArray'];
+        // COUNT ALL USERS TO DELETE
+        $selectedUser = count($prop);
+        foreach($prop as $x){
+           $sql = "UPDATE `tbl_property` SET prop_status = 3 WHERE prop_id = '$x'";
+           $stmt = $conn->prepare($sql);
+           if($stmt->execute()){
+            //    EVERY SUCCESSFUL QUERY DEDUCT THE USER COUNT INSIDE THE ARRAY
+               $selectedUser = $selectedUser - 1;
+           }
+        }
+        if($selectedUser == 0){
+            echo 'done';
+        }else{
+            echo 'error';
+        }
+    }
+
+
+    // if($method == 'appr_prop'){
+    //     $id = $_POST['id'];
+    //     ## PENDING TO POST --> POSTED
+    //     $sql = "UPDATE `tbl_property` SET prop_status = 1 WHERE prop_id = '$id'";
+    //     $stmt = $conn->prepare($sql);
+    //     if($stmt->execute()){
+    //         echo '1';
+    //     }else{
+    //         echo '0';
+    //     }
+    // }
+
+    // if($method == 'decline_prop'){
+    //     $id = $_POST['id'];
+    //     $sql = "UPDATE `tbl_property` SET prop_status = 3 WHERE prop_id = '$id'";
+    //     $stmt = $conn->prepare($sql);
+    //     if($stmt->execute()){
+    //         echo '1';
+    //     }else{
+    //         echo '0';
+    //     }
+    // }
+
+
+
+
     // KILL CONNECTION
     $conn = null;
 
