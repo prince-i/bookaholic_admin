@@ -4,6 +4,7 @@
 </div>
     
     <div class="row">
+        <h5 class="center">APPOINTMENT</h5>
         <div class="col s12">
             <div class="col s2 input-field">
                 <input type="text" name="" id="customer_name_app"><label for="">Name</label>
@@ -13,12 +14,12 @@
             </div>
             <div class="col s2 input-field">
                 <select name="" id="app_status" class="browser-default">
-                    <option value="">Appointment Status</option>
-                    <option value="0">PENDING APPROVAL</option>
-                    <option value="1">APPROVED TRANSACTION</option>
-                    <option value="2">DECLINED TRANSACTION</option>
-                    <option value="3">HISTORY TRANSACTION</option>
-                    <option value="4">SUCCESS TRANSACTION</option>
+                    <option value="">[ALL] APPOINTMENT STATUS</option>
+                    <option value="0">[0] PENDING APPROVAL</option>
+                    <option value="1">[1] APPROVED TRANSACTION</option>
+                    <option value="2">[2] DECLINED TRANSACTION</option>
+                    <option value="3">[3] HISTORY TRANSACTION</option>
+                    <option value="4">[4] SUCCESS TRANSACTION</option>
                 </select>
             </div>
 

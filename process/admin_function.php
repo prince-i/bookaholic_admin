@@ -455,6 +455,23 @@
                 $time_ = explode("T",$x['APP_TIME']);
                 $time = $time_[1];
                 $time = substr($time,0,8);
+                $status = $x['APPOINT_STAT'];
+                if($status == '0'){
+                    $status_ = 'PENDING APPROVAL';
+                }
+                if($status == '1'){
+                    $status_ = 'APPROVED TRANSACTION';
+                }
+                if($status == '2'){
+                    $status_ = 'DECLINED TRANSACTION';
+                }
+                if($status == '3'){
+                    $status_ = 'HISTORY TRANSACTION';
+                }
+
+                if($status == '4'){
+                    $status_ = 'SUCCESS TRANSACTION';
+                }
 
                 echo '<tr>';
                 echo '<td>'.$c.'</td>';
@@ -468,7 +485,7 @@
                 echo '<td>'.$time.'</td>';
                 echo '<td>'.$x['APPOINT_COMMENT'].'</td>';
                 echo '<td>'.$x['APPOINT_COMMENT_APPR'].'</td>';
-                echo '<td>'.$x['APPOINT_STAT'].'</td>';
+                echo '<td>'.$status_.'</td>';
                 echo '<td>'.$x['APPOINT_DECLINE'].'</td>';
                 echo '<td>'.$x['APPOINT_APPROVE'].'</td>';
                 echo '<td>'.$x['APPOINT_REVIEW'].'</td>';
@@ -478,6 +495,83 @@
     }
 
 
+    if($method == 'checkouts'){
+        $customer = $_POST['co_customer'];
+        $prop_co = $_POST['prop_co'];
+        $status = $_POST['status'];
+
+        $query = "SELECT tbl_checkout.co_id AS CO_ID, CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) AS NAME,tbl_accounts.acc_email AS EMAIL,tbl_accounts.acc_phone AS PHONE, tbl_checkout.co_image AS CO_IMG, tbl_property.prop_name AS PROPNAME, tbl_property.prop_price AS PROP_PRICE, tbl_checkout.co_loc AS LOCATION, tbl_checkout.co_landmark AS LANDMARK, tbl_checkout.co_special AS SPECIAL, tbl_checkout.co_comment AS COMMENT, tbl_checkout.co_comment_approve AS APPROVE_COMMENT, tbl_checkout.co_status AS CHK_STATUS, tbl_checkout.co_decline AS DECLINE, tbl_checkout.co_approve AS APPROVE, tbl_checkout.co_review AS REVIEW, tbl_checkout.co_cancel AS CANCEL, tbl_checkout.co_payment AS PAYMENT FROM tbl_checkout LEFT JOIN tbl_property ON tbl_checkout.prop_id = tbl_property.prop_id LEFT JOIN tbl_accounts ON tbl_accounts.acc_id = tbl_checkout.acc_id WHERE CONCAT(tbl_accounts.acc_fname,' ',tbl_accounts.acc_lname) LIKE '$customer%' AND tbl_property.prop_name LIKE '$prop_co%' AND tbl_checkout.co_status LIKE '$status%'";
+
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        if($stmt->rowCount()){
+            $c =0;
+            foreach($stmt->fetchALL() as $x){
+                $c++;
+                $status = $x['CHK_STATUS'];
+                if($status == '0'){
+                    $stat = 'PENDING ORDER';
+                }
+                if($status == '1'){
+                    $stat = 'TO PAY';
+                }
+                if($status == '2'){
+                    $stat = 'CANCELLED ORDER';
+                }
+
+                if($status == '3'){
+                    $stat = 'DELIVERED';
+                }
+                if($status == '4'){
+                    $stat = 'TO DELIVER';
+                }
+                if($status == '5'){
+                    $stat = 'COMPLETED';
+                }
+                if($status == '6'){
+                    $stat = 'TO PROCESS';
+                }
+                if($status == '7'){
+                    $stat = 'PAID';
+                }
+                echo '<tr onclick="get_checkout_data(&quot;'.$x['CO_ID'].'~!~'.$x['CHK_STATUS'].'&quot;)" style="cursor:pointer;"
+                class="modal-trigger" data-target="update_chk_out">';
+                echo '<td>'.$c.'</td>';
+                echo '<td>'.$x['NAME'].'</td>';
+                echo '<td>'.$x['EMAIL'].'</td>';
+                echo '<td>'.$x['PHONE'].'</td>';
+                echo '<td><img src="'.$x['CO_IMG'].'" class="responsive-img"/></td>';
+                echo '<td>'.$x['PROPNAME'].'</td>';
+                echo '<td>'.$x['PROP_PRICE'].'</td>';
+                echo '<td>'.$x['LOCATION'].'</td>';
+                echo '<td>'.$x['LANDMARK'].'</td>';
+                echo '<td>'.$x['SPECIAL'].'</td>';
+                echo '<td>'.$x['COMMENT'].'</td>';
+                echo '<td>'.$x['APPROVE_COMMENT'].'</td>';
+                echo '<td>'.$stat.'</td>';
+                echo '<td>'.$x['DECLINE'].'</td>';
+                echo '<td>'.$x['APPROVE'].'</td>';
+                echo '<td>'.$x['REVIEW'].'</td>';
+                echo '<td>'.$x['CANCEL'].'</td>';
+                echo '<td>'.$x['PAYMENT'].'</td>';
+                echo '</tr>';
+            }
+        }
+    }
+
+
+    if($method == 'update_chk'){
+        $id = $_POST['id'];
+        $stat = $_POST['new_stat'];
+        $UPDATE =  "UPDATE tbl_checkout SET co_status = '$stat' WHERE co_id = '$id'";
+        $stmt = $conn->prepare($UPDATE);
+       if($stmt->execute()){
+        echo "success";
+       }else{
+           echo "fail";
+       }
+        
+    }
     // KILL CONNECTION
     $conn = null;
 

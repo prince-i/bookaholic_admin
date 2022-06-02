@@ -37,6 +37,8 @@
     include '../Component/Modals/approve_prop.php';
     include '../Component/Modals/add_admin_modal.php';
     include '../Component/Modals/appointment.php';
+    include '../Component/Modals/checkout.php';
+    include '../Component/Modals/update_checkout.php';
 ?>
 <nav class="#388e3c green darken-2">
     <div class="nav-wrapper">
@@ -47,6 +49,7 @@
         <li><a href="#" class="modal-trigger" id="manage_users" data-target="manage_user" onclick="load_users()">Manage Users</a></li>
         <li><a href="#" data-target="history_logs" class="modal-trigger" onclick="load_for_approve()">For Approval <span id="apprCount" class="badge new red">0</span></a></li>
         <li><a href="#" class="modal-trigger" id="manage_appointment" data-target="manage_appointment" onclick="load_appointment()">Appointments</a></li>
+        <li><a href="#" class="modal-trigger" id="manage_checkout" data-target="manage_checkout" onclick="load_checkout()">Checkout</a></li>
         <li><a href="#" data-target="modal-logout" class="modal-trigger">Sign out</a></li>
       </ul>
     </div>
@@ -56,6 +59,8 @@
         <li><a href="#" data-target="masterlist_admin" class="modal-trigger" onclick="load_admin_user()">Manage Admin</a></li>
         <li><a href="#" class="modal-trigger" data-target="manage_user" onclick="load_users()">Manage Users</a></li>
         <li><a href="#" data-target="history_logs" class="modal-trigger" onclick="load_for_approve()">For Approval <span id="apprCount" class="badge new red">0</span></a></li>
+        <li><a href="#" class="modal-trigger" id="manage_appointment" data-target="manage_appointment" onclick="load_appointment()">Appointments</a></li>
+        <li><a href="#" class="modal-trigger" id="manage_checkout" data-target="manage_checkout" onclick="load_checkout()">Checkout</a></li>
         <li><a href="#" data-target="modal-logout" class="modal-trigger">Sign out</a></li>
   </ul>
 <!-- PLAN LIST -->
@@ -867,6 +872,56 @@ const load_appointment =()=>{
             $('#appoint_data').html(data);
         }
     });
+}
+
+const load_checkout =()=>{
+    var co_customer = $('#customer_name_co').val();
+    var prop_co = $('#prop_name_co').val();
+    var status = $('#co_status').val();
+    $.ajax({
+        url: '../process/admin_function.php',
+        type: 'POST',
+        cache: false,
+        data:{
+            method: 'checkouts',
+            co_customer:co_customer,
+            prop_co:prop_co,
+            status:status
+        },success:function(data){
+            // console.log(data);
+            $('#co_data').html(data);
+        }
+    });
+}
+
+const get_checkout_data =(params)=>{
+    var params = params.split('~!~');
+    $('#co_id_ups').val(params[0]);
+    $('#co_status_ups').val(params[1]);
+}
+
+const update_checkout =()=>{
+    var id = $('#co_id_ups').val();
+    var new_stat = $('#co_status_ups').val();
+    $.ajax({
+        url: '../process/admin_function.php',
+        type: 'POST',
+        cache:false,
+        data:{
+            method: 'update_chk',
+            id:id,
+            new_stat:new_stat
+        },success:function(data){
+            // console.log(data);
+            if(data == 'success'){
+                load_checkout();
+                swal('Notification','Updated successfully!','success');
+                $('#update_chk_out_close').click();
+            }else{
+                swal('Notification','An error has occured, please try again!','info');
+            }
+        }
+    })
 }
 </script>
 </body>
