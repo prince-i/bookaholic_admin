@@ -7,8 +7,19 @@
         $to = $_POST['dateTo'];
         $partsCode = $_POST['partsCode'];
         $shiftCode = $_POST['shiftCode'];
+        $sort = $_POST['sort'];
+        if(!empty($sort)){
+            $sort_ = explode('|',$sort);
+            $col = $sort_[0];
+            $type = $sort_[1];
+            $qry = "SELECT *FROM tbl_property WHERE prop_createdAt >='$from 00:00:00' AND prop_createdAt <= '$to 23:59:59' AND prop_name LIKE '$partsCode%' AND prop_status LIKE '$shiftCode%' ORDER BY $col $type";
+
+        }else{
+            $qry = "SELECT *FROM tbl_property WHERE prop_createdAt >='$from 00:00:00' AND prop_createdAt <= '$to 23:59:59' AND prop_name LIKE '$partsCode%' AND prop_status LIKE '$shiftCode%' ORDER BY prop_createdAt DESC";
+        }
+       
         // QUERY
-        $qry = "SELECT *FROM tbl_property WHERE prop_createdAt >='$from 00:00:00' AND prop_createdAt <= '$to 23:59:59' AND prop_name LIKE '$partsCode%' AND prop_status LIKE '$shiftCode%' ORDER BY prop_createdAt DESC";
+        // $qry = "SELECT *FROM tbl_property WHERE prop_createdAt >='$from 00:00:00' AND prop_createdAt <= '$to 23:59:59' AND prop_name LIKE '$partsCode%' AND prop_status LIKE '$shiftCode%' ORDER BY prop_createdAt DESC";
         $stmt = $conn->prepare($qry);
         $stmt->execute();
         if($stmt->rowCount() > 0){
@@ -36,11 +47,18 @@
                 $getOwner = "SELECT DISTINCT* FROM tbl_accounts WHERE acc_id = '$accID'";
                 $stmt=$conn->prepare($getOwner);
                 $stmt->execute();
-                foreach($stmt->fetchALL() as $o){
-                    $owner = $o['acc_fname']." ".$o['acc_lname'];
-                    $ownerEmail = $o['acc_email'];
-                    $ownerMobile = $o['acc_phone'];
+                if($stmt->rowCount() > 0){
+                    foreach($stmt->fetchALL() as $o){
+                        $owner = $o['acc_fname']." ".$o['acc_lname'];
+                        $ownerEmail = $o['acc_email'];
+                        $ownerMobile = $o['acc_phone'];
+                    }
+                }else{
+                    $owner = "";
+                    $ownerEmail = "";
+                    $ownerMobile = "";
                 }
+                
 
 
                 echo '<tr style="cursor:pointer;" class="modal-trigger" data-target="plan_menu_admin"

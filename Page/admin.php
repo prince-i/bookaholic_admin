@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="../materialize/css/materialize.min.css">
     <link rel="stylesheet" href="../Component/main.css">
      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     
 </head>
 <body>
 <?php
@@ -121,7 +122,7 @@
                        
                     </select>
                 </div>
-
+                
 
                 <!-- SEARCH BTN -->
                 <div class="input-field col l2 m12 s12">
@@ -130,6 +131,26 @@
                 <!-- EXPORT -->
                 <div class="input-field col l2 m12 s12">
                     <button id="exportBtn" class="btn col s12 btn-large #81c784 green lighten-2" onclick="export_plan('planTable')" style="border-radius:30px;"> Export</button>
+                </div>
+
+                <!-- SORT -->
+                <div class="input-field col l2 m12 s12">
+                    <select name="" id="sort_search" class="browser-default z-depth-1" style="border-radius:30px;">
+                        <option value="">SORT BY</option>
+                        <option value="prop_name|ASC">BOOK TITLE [ASC]</option>
+                        <option value="prop_name|DESC">BOOK TITLE [DESC]</option>
+                        <option value="prop_price|ASC">PRICE [ASC]</option>
+                        <option value="prop_price|DESC">PRICE [DESC]</option>
+                        <option value="prop_address|ASC">ADDRESS [ASC]</option>
+                        <option value="prop_address|DESC">ADDRESS [DESC]</option>
+                        
+                        <option value="prop_status|ASC">BOOK STATUS [ASC]</option>
+                        <option value="prop_status|DESC">BOOK STATUS [DESC]</option>
+                         
+                        <!-- <option value="prop_createAt|ASC">DATE POSTED [ASC]</option>
+                        <option value="prop_createAt|DESC">DATE POSTED [DESC]</option>
+                        -->
+                    </select>
                 </div>
             </div>
         </div>
@@ -163,6 +184,7 @@
 <script src="../Component/jquery.min.js"></script>
 <script src="../materialize/js/materialize.min.js"></script>
 <script src="../node_modules/sweetalert/dist/sweetalert.min.js"></script>
+
 <script>
     $(document).ready(function(){
         $('.modal').modal({
@@ -183,6 +205,9 @@
         setInterval(count_pending,5000); // REALTIME
         setInterval(load_stat,10000); // REALTIME
     });
+
+
+
 
     const load_stat = () =>{
         $.ajax({
@@ -206,6 +231,7 @@
         var dateTo = document.getElementById('date_to').value;
         var partsCode = document.getElementById('partscode_search').value;
         var shiftCode = document.getElementById('shift_search').value;
+        var sort = document.getElementById('sort_search').value;
             $.ajax({
                 url:'../process/admin_function.php',
                 type: 'POST',
@@ -215,7 +241,8 @@
                     dateFrom:dateFrom,
                     dateTo:dateTo,
                     partsCode:partsCode,
-                    shiftCode:shiftCode
+                    shiftCode:shiftCode,
+                    sort:sort
                 },success:function(response){
                     $('#plan_data').html(response);
                 }
@@ -1053,6 +1080,52 @@ const get_appr_to_decline =()=>{
         swal('NO ITEM IS SELECTED','','info');
     }
 }
+
+
+// //SORTING
+// const table = document.querySelector('#planTable');
+// const headers = table.querySelectorAll('th');
+
+// [].forEach.call(headers, function (header, index) {
+//     header.addEventListener('click', function () {
+//         // This function will sort the column
+//         sortColumn(index);
+//     });
+// });
+// const tableBody = table.querySelector('tbody');
+// const rows = tableBody.querySelectorAll('tr');
+
+// const sortColumn = function (index) {
+//     // Clone the rows
+//     const newRows = Array.from(rows);
+
+//     // Sort rows by the content of cells
+//     newRows.sort(function (rowA, rowB) {
+//         // Get the content of cells
+//         const cellA = rowA.querySelectorAll('td')[index].innerHTML;
+//         const cellB = rowB.querySelectorAll('td')[index].innerHTML;
+
+//         switch (true) {
+//             case cellA > cellB:
+//                 return 1;
+//             case cellA < cellB:
+//                 return -1;
+//             case cellA === cellB:
+//                 return 0;
+//         }
+//     });
+
+//     // Remove old rows
+//     [].forEach.call(rows, function (row) {
+//         tableBody.removeChild(row);
+//     });
+
+//     // Append new row
+//     newRows.forEach(function (newRow) {
+//         tableBody.appendChild(newRow);
+//     });
+// };
+
 
 </script>
 </body>

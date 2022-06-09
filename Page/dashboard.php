@@ -9,6 +9,7 @@
     <title>PIC Dashboard | <?=$full_name;?></title>
     <link rel="stylesheet" href="../materialize/css/materialize.min.css">
     <link rel="stylesheet" href="../Component/main.css">
+
 </head>
 <?php
     
@@ -90,6 +91,7 @@
 <script src="../Component/jquery.min.js"></script>
 <script src="../materialize/js/materialize.min.js"></script>
 <script src="../node_modules/sweetalert/dist/sweetalert.min.js"></script>
+
 <script>
 $(document).ready(function(){
     $('.modal').modal({
@@ -102,6 +104,8 @@ $(document).ready(function(){
     });
     load_plan_list();
 });
+
+
 // VIEW MODAL HACK METHOD
 const create_plan =()=>{
     $('#render_modal').load('../Forms/modal-new-plan.php');
